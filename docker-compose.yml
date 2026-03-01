@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Backend API + Browser Automation
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - PLAYWRIGHT_BROWSERS_PATH=/ms playwright install chromium
+    volumes:
+      - ./backend:/app
+      - /tmp/operator-panel:/tmp/operator-panel
+    command: npm run dev
+
+  # Frontend Web Panel
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+networks:
+  default:
+    name: operator-network
