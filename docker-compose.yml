@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Backend API + Browser Automation
+  # Backend API
   backend:
     build: ./backend
     ports:
@@ -9,10 +9,8 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3001
-      - PLAYWRIGHT_BROWSERS_PATH=/ms playwright install chromium
     volumes:
       - ./backend:/app
-      - /tmp/operator-panel:/tmp/operator-panel
     command: npm run dev
 
   # Frontend Web Panel
